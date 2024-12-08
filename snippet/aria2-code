@@ -16,7 +16,7 @@ ARIA2_GIT_CODE() {
         git pull
     else
         rm -rf $ARIA2_CODE_DIR
-        git clone https://github.com/aria2/aria2 $ARIA2_CODE_DIR
+        git clone https://github.com/aria2/aria2 $ARIA2_CODE_DIR --depth=1
         cd $ARIA2_CODE_DIR
     fi
     autoreconf -fi || autoreconf -fiv
@@ -34,7 +34,6 @@ ARIA2_PATCH() {
 }
 
 ARIA2_CODE_GET() {
-    #ARIA2_RELEASE_CODE
     ARIA2_GIT_CODE
     ARIA2_PATCH
 }
