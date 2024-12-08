@@ -11,11 +11,6 @@ name: Aria2 Builder
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-  push:
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
 
 jobs:
   build:
@@ -24,19 +19,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        PLATFORMS: [amd64, arm64, armhf, i386]
+        PLATFORMS: [amd64]
         include:
         - PLATFORMS: amd64
-          BUILDER_IMAGE: debian:11
+          BUILDER_IMAGE: debian:12
           BUILD_SCRIPT: aria2-gnu-linux-build-amd64.sh
         - PLATFORMS: arm64
-          BUILDER_IMAGE: debian:11
+          BUILDER_IMAGE: debian:12
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-arm64.sh
         - PLATFORMS: armhf
-          BUILDER_IMAGE: ubuntu:16.04
+          BUILDER_IMAGE: ubuntu:latest
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-armhf.sh
         - PLATFORMS: i386
-          BUILDER_IMAGE: debian:10
+          BUILDER_IMAGE: debian:12
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-i386.sh
 
     steps:
@@ -45,7 +40,7 @@ jobs:
       run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Build
       env:
@@ -71,7 +66,7 @@ jobs:
         ./aria2c -v 2>&1 | tee ./output/version-${{ matrix.PLATFORMS }}.txt
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: aria2-${{ matrix.PLATFORMS }}
         path: output
