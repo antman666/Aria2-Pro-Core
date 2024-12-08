@@ -1,14 +1,14 @@
 # Aria2 Pro Core
 
-[![LICENSE](https://img.shields.io/github/license/P3TERX/Aria2-Pro-Core?style=flat-square)](https://github.com/P3TERX/Aria2-Pro-Core/blob/master/LICENSE)
-![GitHub All Releases](https://img.shields.io/github/downloads/P3TERX/Aria2-Pro-Core/total?label=Downlaods&style=flat-square&color=red)
+[![LICENSE](https://img.shields.io/github/license/antman666/Aria2-Pro-Core?style=flat-square)](https://github.com/antman666/Aria2-Pro-Core/blob/master/LICENSE)
+![GitHub All Releases](https://img.shields.io/github/downloads/antman666/Aria2-Pro-Core/total?label=Downlaods&style=flat-square&color=red)
 [![GitHub Stars](https://img.shields.io/github/stars/P3TERX/Aria2-Pro-Core.svg?style=flat-square&label=Stars&logo=github)](https://github.com/P3TERX/Aria2-Pro-Core/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/P3TERX/Aria2-Pro-Core.svg?style=flat-square&label=Forks&logo=github)](https://github.com/P3TERX/Aria2-Pro-Core/fork)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/P3TERX/Aria2-Pro-Core/Aria2%20Builder?label=Actions&logo=github&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/antman666/Aria2-Pro-Core/Aria2%20Builder?label=Actions&logo=github&style=flat-square)
 
 Aria2 static binaries for GNU/Linux with some powerful feature patches.
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/P3TERX/Aria2-Pro-Core?style=for-the-badge)](https://github.com/P3TERX/Aria2-Pro-Core/releases/latest)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/antman666/Aria2-Pro-Core?style=for-the-badge)](https://github.com/antman666/Aria2-Pro-Core/releases/latest)
 
 ## Changes
 
@@ -31,7 +31,7 @@ curl -fsSL git.io/aria2c.sh | bash
 
 ### Manual installation
 ```shell
-wget https://github.com/P3TERX/Aria2-Pro-Core/releases/download/[version]/aria2-[version]-static-linux-[arch].tar.gz
+wget https://github.com/antman666/Aria2-Pro-Core/releases/download/[version]/aria2-[version]-static-linux-[arch].tar.gz
 tar zxvf aria2-[version]-static-linux-[arch].tar.gz
 sudo mv aria2c /usr/local/bin
 ```
@@ -48,9 +48,9 @@ sudo rm -f /usr/local/bin/aria2c
 Download script, execute script.
 > **TIPS:** In today's containerization of everything, this is not recommended.
 ```shell
-git clone https://github.com/P3TERX/Aria2-Pro-Core
+git clone https://github.com/antman666/Aria2-Pro-Core
 cd Aria2-Pro-Core
-bash aria2-gnu-linux-build.sh
+bash aria2-gnu-linux-build-amd64.sh
 ```
 
 ### with docker
@@ -61,7 +61,7 @@ Build Aria2 for current architecture platforms.
 ```shell
 DOCKER_BUILDKIT=1 docker build \
     -o type=local,dest=. \
-    github.com/P3TERX/Aria2-Pro-Core
+    github.com/antman666/Aria2-Pro-Core
 ```
 
 **`dest`** can define the output directory. If there are no changes, there will be an archive file in the current directory when the build is completed.
@@ -73,10 +73,10 @@ $ ls -l
 Cross build Aria2 for other platforms, e.g.:
 ```
 DOCKER_BUILDKIT=1 docker build \
-    --build-arg BUILDER_IMAGE=ubuntu:14.04 \
+    --build-arg BUILDER_IMAGE=ubuntu:24.04 \
     --build-arg BUILD_SCRIPT=aria2-gnu-linux-cross-build-armhf.sh \
     -o type=local,dest=. \
-    github.com/P3TERX/Aria2-Pro-Core
+    github.com/antman666/Aria2-Pro-Core
 ```
 > **`BUILDER_IMAGE`** variable defines the system image used for the build. In general, platforms other than `armhf` don't require it.
 > **`BUILD_SCRIPT`** variable defines the script used for the cross build.
@@ -97,7 +97,6 @@ DOCKER_BUILDKIT=1 docker build \
 * [SQLite](http://www.sqlite.org/)
 * [OpenSSL](http://www.openssl.org/)
 * [libssh2](http://www.libssh2.org/)
-* [jemalloc](http://jemalloc.net/)
 
 ### Credits
 
