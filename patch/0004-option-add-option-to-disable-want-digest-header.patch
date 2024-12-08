@@ -74,31 +74,31 @@ index a058eb9..9ff615a 100644
      OptionHandler* op(new BooleanOptionHandler(
          PREF_ENABLE_HTTP_KEEP_ALIVE, TEXT_ENABLE_HTTP_KEEP_ALIVE, A2_V_TRUE,
 diff --git a/src/prefs.cc b/src/prefs.cc
-index 9793706..bdb33e2 100644
+index 2591b9f..3711b8c 100644
 --- a/src/prefs.cc
 +++ b/src/prefs.cc
-@@ -437,6 +437,8 @@ PrefPtr PREF_HTTP_ACCEPT_GZIP = makePref("http-accept-gzip");
- // value: true | false
+@@ -430,6 +430,8 @@ PrefPtr PREF_HTTP_ACCEPT_GZIP = makePref("http-accept-gzip");
  PrefPtr PREF_CONTENT_DISPOSITION_DEFAULT_UTF8 =
      makePref("content-disposition-default-utf8");
-+// values: true | false
+ // value: true | false
 +PrefPtr PREF_HTTP_WANT_DIGEST = makePref("http-want-digest");
- 
++// value: true | false
+ PrefPtr PREF_NO_WANT_DIGEST_HEADER = makePref("no-want-digest-header");
+
  /**
-  * Proxy related preferences
 diff --git a/src/prefs.h b/src/prefs.h
-index f014d9c..c88f2d0 100644
+index 338fd6e..9c82266 100644
 --- a/src/prefs.h
 +++ b/src/prefs.h
-@@ -389,6 +389,8 @@ extern PrefPtr PREF_HTTP_NO_CACHE;
- extern PrefPtr PREF_HTTP_ACCEPT_GZIP;
+@@ -382,6 +382,8 @@ extern PrefPtr PREF_HTTP_ACCEPT_GZIP;
  // value: true | false
  extern PrefPtr PREF_CONTENT_DISPOSITION_DEFAULT_UTF8;
-+// value: true | false
+ // value: true | false
 +extern PrefPtr PREF_HTTP_WANT_DIGEST;
- 
++// value: true | false
+ extern PrefPtr PREF_NO_WANT_DIGEST_HEADER;
+
  /**;
-  * Proxy related preferences
 diff --git a/src/usage_text.h b/src/usage_text.h
 index 7a0a981..aee3ac0 100644
 --- a/src/usage_text.h
