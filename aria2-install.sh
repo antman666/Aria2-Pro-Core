@@ -26,7 +26,7 @@ INFO="[${Green_font_prefix}INFO${Font_color_suffix}]"
 ERROR="[${Red_font_prefix}ERROR${Font_color_suffix}]"
 
 PROJECT_NAME='Aria2 Pro Core'
-GH_API_URL='https://api.github.com/repos/P3TERX/Aria2-Pro-Core/releases/latest'
+GH_API_URL='https://api.github.com/repos/antman666/Aria2-Pro-Core/releases/latest'
 BIN_DIR='/usr/local/bin'
 BIN_NAME='aria2c'
 BIN_FILE="${BIN_DIR}/${BIN_NAME}"
