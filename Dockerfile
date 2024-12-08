@@ -1,14 +1,14 @@
-ARG BUILDER_IMAGE=debian:10
+ARG BUILDER_IMAGE=debian:12
 
 FROM $BUILDER_IMAGE AS builder
 
-WORKDIR /P3TERX/aria2-builder
+WORKDIR /antman666/aria2-builder
 
 COPY . .
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG BUILD_SCRIPT=aria2-gnu-linux-build.sh
+ARG BUILD_SCRIPT=aria2-gnu-linux-build-amd64.sh
 
 RUN bash $BUILD_SCRIPT
 
