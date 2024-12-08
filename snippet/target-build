@@ -50,7 +50,9 @@ OPENSSL_BUILD() {
     ./Configure \
         --prefix=$PREFIX \
         $OPENSSL_ARCH \
-        no-tests
+        no-tests \
+        no-shared \
+        no-module
     make -j$(nproc)
     make install_sw
 }
@@ -74,6 +76,7 @@ LIBSSH2_BUILD() {
         --prefix=$PREFIX \
         --enable-static \
         --disable-shared \
+        --with-crypto=openssl \
         --disable-examples-build
     make -j$(nproc)
     make install
