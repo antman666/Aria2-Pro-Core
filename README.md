@@ -4,7 +4,7 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/antman666/Aria2-Pro-Core/total?label=Downlaods&style=flat-square&color=red)
 [![GitHub Stars](https://img.shields.io/github/stars/P3TERX/Aria2-Pro-Core.svg?style=flat-square&label=Stars&logo=github)](https://github.com/P3TERX/Aria2-Pro-Core/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/P3TERX/Aria2-Pro-Core.svg?style=flat-square&label=Forks&logo=github)](https://github.com/P3TERX/Aria2-Pro-Core/fork)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/antman666/Aria2-Pro-Core/aria2-builder.yml?label=Actions&logo=github&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/antman666/Aria2-Pro-Core/aria2-builder.yml?label=Actions&logo=github&style=flat-square)
 
 Aria2 static binaries for GNU/Linux with some powerful feature patches.
 
