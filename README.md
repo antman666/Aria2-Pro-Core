@@ -10,6 +10,8 @@ Aria2 static binaries for GNU/Linux with some powerful feature patches.
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/antman666/Aria2-Pro-Core?style=for-the-badge)](https://github.com/antman666/Aria2-Pro-Core/releases/latest)
 
+* Supported platforms: `amd64 (x86_64-v3)`, `i386`, `arm64`, `armhf`
+
 ## Changes
 
 * option `max-connection-per-server`: change maximum value to `∞`
