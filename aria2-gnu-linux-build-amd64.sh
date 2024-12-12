@@ -29,12 +29,12 @@ export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
 export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
 export LD_LIBRARY_PATH="$PREFIX/lib"
 export CFLAGS+="-march=x86-64-v3"
-export CC="gcc"
-export CXX="g++"
-export STRIP="strip"
-export RANLIB="ranlib"
-export AR="ar"
-export LD="ld"
+export CC="clang"
+export CXX="clang++"
+export STRIP="llvm-strip"
+export RANLIB="llvm-ranlib"
+export AR="llvm-ar"
+export LD="lld"
 
 ## DEPENDENCES ##
 source $SCRIPT_DIR/dependences
