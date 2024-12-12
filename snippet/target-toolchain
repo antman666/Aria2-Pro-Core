@@ -11,7 +11,7 @@
 DEBIAN_INSTALL() {
     $SUDO apt-get update
     $SUDO apt-get -y install build-essential git curl ca-certificates \
-        libxml2-dev libcppunit-dev autoconf automake autotools-dev autopoint libtool pkg-config llvm-19
+        libxml2-dev libcppunit-dev autoconf automake autotools-dev autopoint libtool pkg-config llvm-19 clang-19
 }
 
 FEDORA_INSTALL() {
