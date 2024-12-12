@@ -48,8 +48,11 @@ jobs:
         BUILDER_IMAGE: ${{ matrix.BUILDER_IMAGE }}
         BUILD_SCRIPT: ${{ matrix.BUILD_SCRIPT }}
       run: |
-        echo "TAG=$(date -d "${TIME}" -u +'%Y%m%d-%H%M%S-%Z')" >> $GITHUB_ENV
-        echo "NAME=Autobuild aria2-pro" >> $GITHUB_ENV
+        TAG=$(date -u +'%Y%m%d-%H%M%S-%Z')
+        VER="1.37.0"
+        echo "$TIME" >> $GITHUB_ENV
+        echo "NAME=Aria2 ${VER} build ${TIME}" >> $GITHUB_ENV
+        echo "RELEASE=${VER}_${TIME}" >> $GITHUB_ENV
         docker build \
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
@@ -95,6 +98,6 @@ jobs:
     - name: Upload to release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ env.TAG }}
+        tag_name: ${{ env.RELEASE }}
         files: |
           output/*.gz
