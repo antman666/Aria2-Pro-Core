@@ -22,16 +22,16 @@ jobs:
         PLATFORMS: [amd64, arm64, armhf, i386]
         include:
         - PLATFORMS: amd64
-          BUILDER_IMAGE: debian:12
+          BUILDER_IMAGE: debian:latest
           BUILD_SCRIPT: aria2-gnu-linux-build-amd64.sh
         - PLATFORMS: arm64
-          BUILDER_IMAGE: debian:12
+          BUILDER_IMAGE: debian:latest
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-arm64.sh
         - PLATFORMS: armhf
-          BUILDER_IMAGE: ubuntu:latest
+          BUILDER_IMAGE: debian:latest
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-armhf.sh
         - PLATFORMS: i386
-          BUILDER_IMAGE: debian:12
+          BUILDER_IMAGE: debian:latest
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-i386.sh
 
     steps:
