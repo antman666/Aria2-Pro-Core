@@ -71,6 +71,19 @@ jobs:
         name: aria2-${{ matrix.PLATFORMS }}
         path: output/*
 
+    - name: Create release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.TAG }}
+        name: ${{ env.NAME }}
+
+    - name: Upload to release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.TAG }}
+        files: |
+          output/*
+
     - name: Functional Testing
       run: |
         ./aria2c https://raw.githubusercontent.com/P3TERX/aria2.conf/master/dht.dat
