@@ -48,6 +48,8 @@ jobs:
         BUILDER_IMAGE: ${{ matrix.BUILDER_IMAGE }}
         BUILD_SCRIPT: ${{ matrix.BUILD_SCRIPT }}
       run: |
+        echo "TAG=$(date -d "${TIME}" -u +'%Y%m%d-%H%M%S-%Z')" >> $GITHUB_ENV
+        echo "NAME=Autobuild aria2-pro" >> $GITHUB_ENV
         docker build \
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
@@ -71,19 +73,6 @@ jobs:
         name: aria2-${{ matrix.PLATFORMS }}
         path: output/*
 
-    - name: Create release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ env.TAG }}
-        name: ${{ env.NAME }}
-
-    - name: Upload to release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ env.TAG }}
-        files: |
-          output/*
-
     - name: Functional Testing
       run: |
         ./aria2c https://raw.githubusercontent.com/P3TERX/aria2.conf/master/dht.dat
@@ -96,3 +85,16 @@ jobs:
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
           "https://releases.ubuntu.com/24.10/ubuntu-24.10-live-server-amd64.iso.torrent"
+          
+    - name: Create release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.TAG }}
+        name: ${{ env.NAME }}
+
+    - name: Upload to release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.TAG }}
+        files: |
+          output/*
