@@ -91,7 +91,6 @@ jobs:
         TIME="$(curl https://api.github.com/repos/antman666/Aria2-Pro-Core/actions/runs/${GITHUB_RUN_ID} | jq -r .created_at)"
         TAG="ci-$(date -d "${TIME}" -u +'%Y%m%d-%H%M%S-%Z')"
         VER="1.37.0"
-        echo "$TIME" >> $GITHUB_ENV
         echo "RELEASE=${VER}_${TIME}" >> $GITHUB_ENV
         cat <<EOF | sed -E 's/^  //' | tee Release.md
           Aria2 ${VER} build $(date -d "$TIME" +'%Y-%m-%d %H:%M:%S %Z(%:z)')
