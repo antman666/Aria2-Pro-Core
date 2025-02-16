@@ -12,6 +12,9 @@ name: Aria2 Builder
 on:
   workflow_dispatch:
 
+env:
+  SCRIPT_REPO: ${{ github.repository }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,7 +38,6 @@ jobs:
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-i386.sh
 
     steps:
-
     - id: get
       name: Get repositories information
       run: |
