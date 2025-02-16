@@ -36,6 +36,16 @@ jobs:
 
     steps:
 
+    - id: get
+      name: Get repositories information
+      run: |
+        TIME="$(curl https://api.github.com/repos/${SCRIPT_REPO}/actions/runs/${GITHUB_RUN_ID} | jq -r .created_at)"
+        TAG="ci-$(date -d "${TIME}" -u +'%Y%m%d-%H%M%S-%Z')"
+        cat <<EOF | sed -E 's/^  //' >>$GITHUB_ENV
+          TIME=$TIME
+          TAG=$TAG
+        EOF
+
     - name: Install QEMU
       run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
@@ -88,6 +98,14 @@ jobs:
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
           "https://releases.ubuntu.com/24.10/ubuntu-24.10-live-server-amd64.iso.torrent"
+
+    - name: Generate release informations
+      run: |
+        cat <<EOF | sed -E 's/^  //' | tee Release.md
+          Aria2 Build - $(date -d "$TIME" +'%Y-%m-%d %H:%M:%S %Z(%:z)')
+        EOF
+
+        echo "NAME=$(head --line=1 Release.md)" >>$GITHUB_ENV
           
     - name: Create release
       uses: softprops/action-gh-release@v2
