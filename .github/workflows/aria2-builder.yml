@@ -50,11 +50,6 @@ jobs:
         BUILDER_IMAGE: ${{ matrix.BUILDER_IMAGE }}
         BUILD_SCRIPT: ${{ matrix.BUILD_SCRIPT }}
       run: |
-        TAG=$(date -u +'%Y%m%d-%H%M%S-%Z')
-        VER="1.37.0"
-        echo "$TAG" >> $GITHUB_ENV
-        echo "NAME=Aria2 ${VER} build ${TAG}" >> $GITHUB_ENV
-        echo "RELEASE=${VER}_${TAG}" >> $GITHUB_ENV
         docker build \
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
@@ -91,12 +86,32 @@ jobs:
           --dht-entry-point6='dht.transmissionbt.com:6881' \
           "https://releases.ubuntu.com/24.10/ubuntu-24.10-live-server-amd64.iso.torrent"
           
+    - name: Generate release informations
+      run: |
+        TIME="$(curl https://api.github.com/repos/antman666/Aria2-Pro-Core/actions/runs/${GITHUB_RUN_ID} | jq -r .created_at)"
+        TAG="ci-$(date -d "${TIME}" -u +'%Y%m%d-%H%M%S-%Z')"
+        VER="1.37.0"
+        echo "$TIME" >> $GITHUB_ENV
+        echo "RELEASE=${VER}_${TIME}" >> $GITHUB_ENV
+        cat <<EOF | sed -E 's/^  //' | tee Release.md
+          Aria2 ${VER} build $(date -d "$TIME" +'%Y-%m-%d %H:%M:%S %Z(%:z)')
+
+          # Sources
+          Aria2: [aria2/aria2@master](https://github.com/aria2/aria2/tree/master)
+
+          # SHA256
+        EOF
+
+        echo "NAME=$(head --line=1 Release.md)" >>$GITHUB_ENV
+        tail --line=+2 Release.md >Body.md
+    
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.TAG }}
         target_commitish: ${{ github.sha }}
         name: ${{ env.NAME }}
+        body_path: Body.md
 
     - name: Upload to release
       uses: softprops/action-gh-release@v2
