@@ -38,16 +38,6 @@ jobs:
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-i386.sh
 
     steps:
-    - id: get
-      name: Get repositories information
-      run: |
-        TIME="$(curl https://api.github.com/repos/${SCRIPT_REPO}/actions/runs/${GITHUB_RUN_ID} | jq -r .created_at)"
-        TAG="ci-$(date -d "${TIME}" -u +'%Y%m%d-%H%M%S-%Z')"
-        cat <<EOF | sed -E 's/^  //' >>$GITHUB_ENV
-          TIME=$TIME
-          TAG=$TAG
-        EOF
-
     - name: Install QEMU
       run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
@@ -62,9 +52,9 @@ jobs:
       run: |
         TAG=$(date -u +'%Y%m%d-%H%M%S-%Z')
         VER="1.37.0"
-        echo "$TIME" >> $GITHUB_ENV
-        echo "NAME=Aria2 ${VER} build ${TIME}" >> $GITHUB_ENV
-        echo "RELEASE=${VER}_${TIME}" >> $GITHUB_ENV
+        echo "$TAG" >> $GITHUB_ENV
+        echo "NAME=Aria2 ${VER} build ${TAG}" >> $GITHUB_ENV
+        echo "RELEASE=${VER}_${TAG}" >> $GITHUB_ENV
         docker build \
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
@@ -100,19 +90,12 @@ jobs:
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
           "https://releases.ubuntu.com/24.10/ubuntu-24.10-live-server-amd64.iso.torrent"
-
-    - name: Generate release informations
-      run: |
-        cat <<EOF | sed -E 's/^  //' | tee Release.md
-          Aria2 Build - $(date -d "$TIME" +'%Y-%m-%d %H:%M:%S %Z(%:z)')
-        EOF
-
-        echo "NAME=$(head --line=1 Release.md)" >>$GITHUB_ENV
           
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.TAG }}
+        target_commitish: ${{ github.sha }}
         name: ${{ env.NAME }}
 
     - name: Upload to release
