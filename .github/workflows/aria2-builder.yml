@@ -84,7 +84,7 @@ jobs:
           --dht-file-path6="$PWD/dht6.dat" \
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
-          "https://releases.ubuntu.com/24.10/ubuntu-24.10-live-server-amd64.iso.torrent"
+          "https://releases.ubuntu.com/plucky/ubuntu-25.04-live-server-amd64.iso.torrent"
           
     - name: Generate release informations
       run: |
