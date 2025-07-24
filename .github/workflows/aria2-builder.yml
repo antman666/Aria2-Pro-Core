@@ -33,9 +33,6 @@ jobs:
         - PLATFORMS: armhf
           BUILDER_IMAGE: debian:latest
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-armhf.sh
-        - PLATFORMS: i386
-          BUILDER_IMAGE: debian:latest
-          BUILD_SCRIPT: aria2-gnu-linux-cross-build-i386.sh
 
     steps:
     - name: Install QEMU
