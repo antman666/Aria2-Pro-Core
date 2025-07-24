@@ -99,6 +99,7 @@ jobs:
           Aria2: [aria2/aria2@master](https://github.com/aria2/aria2/tree/master)
         EOF
 
+        echo "TAG=${TAG}" >>$GITHUB_ENV
         echo "NAME=$(head --line=1 Release.md)" >>$GITHUB_ENV
         tail --line=+2 Release.md >Body.md
     
