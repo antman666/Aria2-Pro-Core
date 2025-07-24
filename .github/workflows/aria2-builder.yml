@@ -61,12 +61,6 @@ jobs:
       if: (!cancelled())
       run: grep -iE 'fatal|error|critical|failure|warning' build.log
 
-    - name: Check Version
-      run: |
-        tar xzvf ./output/aria2*.tar.gz
-        file aria2c 2>&1 | tee ./output/file-type-${{ matrix.PLATFORMS }}.txt
-        ./aria2c -v 2>&1 | tee ./output/version-${{ matrix.PLATFORMS }}.txt
-
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
