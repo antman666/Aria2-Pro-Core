@@ -93,12 +93,10 @@ jobs:
         VER="1.37.0"
         echo "RELEASE=${VER}_${TIME}" >> $GITHUB_ENV
         cat <<EOF | sed -E 's/^  //' | tee Release.md
-          Aria2 ${VER} build $(date -d "$TIME" +'%Y-%m-%d %H:%M:%S %Z(%:z)')
+          Aria2 ${VER} build with openssl 3.5
 
           # Sources
           Aria2: [aria2/aria2@master](https://github.com/aria2/aria2/tree/master)
-
-          # SHA256
         EOF
 
         echo "NAME=$(head --line=1 Release.md)" >>$GITHUB_ENV
@@ -108,13 +106,8 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.TAG }}
-        target_commitish: ${{ github.sha }}
         name: ${{ env.NAME }}
         body_path: Body.md
-
-    - name: Upload to release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ env.RELEASE }}
+        make_latest: true
         files: |
           output/*.gz
