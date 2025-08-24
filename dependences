@@ -4,3 +4,4 @@ C_ARES='https://github.com/c-ares/c-ares/releases/download/v1.34.5/c-ares-1.34.5
 OPENSSL='https://github.com/openssl/openssl/releases/download/openssl-3.5.2/openssl-3.5.2.tar.gz'
 SQLITE3='https://www.sqlite.org/2025/sqlite-autoconf-3500400.tar.gz'
 LIBSSH2='https://github.com/libssh2/libssh2/releases/download/libssh2-1.11.1/libssh2-1.11.1.tar.gz'
+MIMALLOC='v3.1.5'
