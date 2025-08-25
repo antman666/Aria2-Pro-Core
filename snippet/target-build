@@ -82,17 +82,13 @@ LIBSSH2_BUILD() {
     make install
 }
 
-JEMALLOC_BUILD() {
-    mkdir -p $BUILD_DIR/jemalloc && cd $BUILD_DIR/jemalloc
-    curl -Ls -o - "$JEMALLOC" | tar jxvf - --strip-components=1
-    ./configure \
-        --prefix=$PREFIX \
-        --enable-static \
-        --disable-shared \
-        --disable-stats \
-        --enable-prof
+MIMALLOC_BUILD() {
+    git clone https://github.com/microsoft/mimalloc -b $MIMALLOC $BUILD_DIR/mimalloc
+    cd $BUILD_DIR/mimalloc
+    cmake .
     make -j$(nproc)
-    make install
+    cp $BUILD_DIR/mimalloc/libmimalloc.a $LD_LIBRARY_PATH/libmimalloc.a
+    cp $BUILD_DIR/mimalloc/mimalloc.pc $PKG_CONFIG_PATH/mimalloc.pc
 }
 
 ARIA2_BUILD() {
@@ -110,7 +106,7 @@ ARIA2_BUILD() {
         --without-libgmp \
         --with-libssh2 \
         --with-sqlite3 \
-        --without-jemalloc \
+        --with-mimalloc \
         --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
         ARIA2_STATIC=yes \
         --disable-shared
