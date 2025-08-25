@@ -85,10 +85,9 @@ LIBSSH2_BUILD() {
 MIMALLOC_BUILD() {
     git clone https://github.com/microsoft/mimalloc -b $MIMALLOC $BUILD_DIR/mimalloc
     cd $BUILD_DIR/mimalloc
-    cmake .
+    cmake -DMI_INSTALL_TOPLEVEL=ON -DCMAKE_INSTALL_PREFIX=$PREFIX -DMI_BUILD_TESTS=OFF .
     make -j$(nproc)
-    cp $BUILD_DIR/mimalloc/libmimalloc.a $LD_LIBRARY_PATH/libmimalloc.a
-    cp $BUILD_DIR/mimalloc/mimalloc.pc $PKG_CONFIG_PATH/mimalloc.pc
+    make install
 }
 
 ARIA2_BUILD() {
