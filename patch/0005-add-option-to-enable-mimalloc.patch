@@ -1,0 +1,112 @@
+diff --git a/configure.ac b/configure.ac
+index 9843994..0b5fbb8 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -66,6 +66,7 @@ ARIA2_ARG_WITHOUT([libcares])
+ ARIA2_ARG_WITHOUT([libz])
+ ARIA2_ARG_WITH([tcmalloc])
+ ARIA2_ARG_WITH([jemalloc])
++ARIA2_ARG_WITH([mimalloc])
+ ARIA2_ARG_WITHOUT([libssh2])
+ 
+ ARIA2_ARG_DISABLE([ssl])
+@@ -790,13 +791,14 @@ AC_CHECK_FUNCS([__argz_count \
+                 utime \
+                 utimes])
+ 
+-dnl Put tcmalloc/jemalloc checks after the posix_memalign check.
++dnl Put tcmalloc/jemalloc/mimalloc checks after the posix_memalign check.
+ dnl These libraries may implement posix_memalign, while the usual CRT may not
+ dnl (e.g. mingw). Since we aren't including the corresponding library headers
+ dnl this will lead to undefined posix_memalign() errors when compiling
+ if test "x$with_tcmalloc_requested" = "xyes" &&
+-   test "x$with_jemalloc_requested" = "xyes"; then
+-  AC_MSG_FAILURE([Cannot use both, tcmalloc and jemalloc!])
++   test "x$with_jemalloc_requested" = "xyes" &&
++   test "x$with_mimalloc_requested" = "xyes"; then
++  AC_MSG_FAILURE([Cannot use these, tcmalloc, jemalloc and mimalloc!])
+ fi
+ 
+ have_tcmalloc=no
+@@ -840,6 +842,27 @@ if test "x$with_jemalloc" = "xyes"; then
+   fi
+ fi
+ 
++have_mimalloc=no
++if test "x$with_mimalloc" = "xyes"; then
++  dnl Important: put malloc libs at the very end.
++  dnl Usually mimalloc does not come with a .pc, as the official source does not
++  dnl generate one.
++  PKG_CHECK_MODULES([MIMALLOC], [mimalloc], [have_mimalloc=yes], [have_mimalloc=no])
++  if test "x$have_mimalloc" != "xyes"; then
++    AC_CHECK_LIB([mimalloc], [malloc], [have_mimalloc=yes], [have_mimalloc=no])
++    if test "x$have_mimalloc" = "xyes"; then
++      MIMALLOC_CFLAGS=
++      MIMALLOC_LIBS="-lmimalloc"
++      AC_SUBST([MIMALLOC_CFLAGS])
++      AC_SUBST([MIMALLOC_LIBS])
++    else
++      if test "x$with_mimalloc_requested" = "xyes"; then
++        ARIA2_DEP_NOT_MET([mimalloc (unprefixed)])
++      fi
++    fi
++  fi
++fi
++
+ have_epoll=no
+ if test "x$enable_epoll" = "xyes"; then
+   AC_CHECK_FUNCS([epoll_create], [have_epoll=yes])
+@@ -1107,6 +1130,7 @@ Zlib:           $have_zlib (CFLAGS='$ZLIB_CFLAGS' LIBS='$ZLIB_LIBS')
+ Libssh2:        $have_libssh2 (CFLAGS='$LIBSSH2_CFLAGS' LIBS='$LIBSSH2_LIBS')
+ Tcmalloc:       $have_tcmalloc (CFLAGS='$TCMALLOC_CFLAGS' LIBS='$TCMALLOC_LIBS')
+ Jemalloc:       $have_jemalloc (CFLAGS='$JEMALLOC_CFLAGS' LIBS='$JEMALLOC_LIBS')
++Mimalloc:       $have_mimalloc (CFLAGS='$MIMALLOC_CFLAGS' LIBS='$MIMALLOC_LIBS')
+ Epoll:          $have_epoll
+ Bittorrent:     $enable_bittorrent
+ Metalink:       $enable_metalink
+diff --git a/src/Makefile.am b/src/Makefile.am
+index cb6e3b7..e40585d 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -715,7 +715,8 @@ AM_CPPFLAGS = \
+ 	@LIBCARES_CFLAGS@ \
+ 	@WSLAY_CFLAGS@ \
+ 	@TCMALLOC_CFLAGS@ \
+-	@JEMALLOC_CFLAGS@
++	@JEMALLOC_CFLAGS@ \
++	@MIMALLOC_CFLAGS@
+ 
+ AM_LDFLAGS = \
+ 	@EXTRALDFLAGS@ \
+@@ -739,6 +740,7 @@ EXTLDADD = @ALLOCA@ \
+ 	@WSLAY_LIBS@ \
+ 	@TCMALLOC_LIBS@ \
+ 	@JEMALLOC_LIBS@ \
++	@MIMALLOC_LIBS@ \
+ 	@LTLIBINTL@
+ 
+ LDADD = libaria2.la
+diff --git a/test/Makefile.am b/test/Makefile.am
+index 49c6211..dc709b8 100644
+--- a/test/Makefile.am
++++ b/test/Makefile.am
+@@ -261,7 +261,8 @@ aria2c_LDADD = \
+ 	@WSLAY_LIBS@ \
+ 	@CPPUNIT_LIBS@ \
+ 	@TCMALLOC_LIBS@ \
+-	@JEMALLOC_LIBS@
++	@JEMALLOC_LIBS@ \
++	@MIMALLOC_LIBS@
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/src \
+@@ -287,7 +288,8 @@ AM_CPPFLAGS = \
+ 	@LIBCARES_CFLAGS@ \
+ 	@WSLAY_CFLAGS@ \
+ 	@TCMALLOC_CFLAGS@ \
+-	@JEMALLOC_CFLAGS@
++	@JEMALLOC_CFLAGS@ \
++	@MIMALLOC_CFLAGS@
+ 
+ AM_LDFLAGS = \
+ 	@EXTRALDFLAGS@ \
