@@ -92,7 +92,7 @@ LIBSSH2_BUILD() {
 MIMALLOC_BUILD() {
     git clone https://github.com/microsoft/mimalloc -b $MIMALLOC $BUILD_DIR/mimalloc
     cd $BUILD_DIR/mimalloc
-    cmake .
+    cmake -DCMAKE_SYSTEM_PROCESSOR=$ARCH -DMI_INSTALL_TOPLEVEL=ON -DCMAKE_INSTALL_PREFIX=$PREFIX -DMI_BUILD_TESTS=OFF .
     make -j$(nproc)
     cp $BUILD_DIR/mimalloc/libmimalloc.a $LD_LIBRARY_PATH/libmimalloc.a
     cp $BUILD_DIR/mimalloc/mimalloc.pc $PKG_CONFIG_PATH/mimalloc.pc
@@ -115,7 +115,7 @@ ARIA2_BUILD() {
         --without-libgmp \
         --with-libssh2 \
         --with-sqlite3 \
-        --without-jemalloc \
+        --with-mimalloc \
         --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
         ARIA2_STATIC=yes \
         --disable-shared
