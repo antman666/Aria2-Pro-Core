@@ -12,8 +12,8 @@ ZLIB_BUILD() {
     mkdir -p $BUILD_DIR/zlib && cd $BUILD_DIR/zlib
     curl -Ls -o - "$ZLIB" | tar zxvf - --strip-components=1
     ./configure \
-        --prefix=$PREFIX \
-        --static
+		--prefix=$PREFIX \
+		--static
     make -j$(nproc)
     make install
 }
@@ -22,12 +22,12 @@ EXPAT_BUILD() {
     mkdir -p $BUILD_DIR/expat && cd $BUILD_DIR/expat
     curl -Ls -o - "$EXPAT" | tar jxvf - --strip-components=1
     ./configure \
-        --prefix=$PREFIX \
-        --enable-static \
-        --disable-shared \
-        --without-examples \
-        --without-tests \
-        --without-docbook
+		--prefix=$PREFIX \
+		--enable-static \
+		--disable-shared \
+		--without-examples \
+		--without-tests \
+		--without-docbook
     make -j$(nproc)
     make install
 }
@@ -36,10 +36,10 @@ C_ARES_BUILD() {
     mkdir -p $BUILD_DIR/c-ares && cd $BUILD_DIR/c-ares
     curl -Ls -o - "$C_ARES" | tar zxvf - --strip-components=1
     ./configure \
-        --prefix=$PREFIX \
-        --enable-static \
-        --disable-shared \
-        --disable-tests
+		--prefix=$PREFIX \
+		--enable-static \
+		--disable-shared \
+		--disable-tests
     make -j$(nproc)
     make install
 }
@@ -48,11 +48,11 @@ OPENSSL_BUILD() {
     mkdir -p $BUILD_DIR/openssl && cd $BUILD_DIR/openssl
     curl -Ls -o - "$OPENSSL" | tar zxvf - --strip-components=1
     ./Configure \
-        --prefix=$PREFIX \
-        $OPENSSL_ARCH \
-        no-tests \
-        no-shared \
-        no-module
+		--prefix=$PREFIX \
+		$OPENSSL_ARCH \
+		no-tests \
+		no-shared \
+		no-module
     make -j$(nproc)
     make install_sw
 }
@@ -61,10 +61,10 @@ SQLITE3_BUILD() {
     mkdir -p $BUILD_DIR/sqlite3 && cd $BUILD_DIR/sqlite3
     curl -Ls -o - "$SQLITE3" | tar zxvf - --strip-components=1
     ./configure \
-        --prefix=$PREFIX \
-        --enable-static \
-        --disable-shared \
-        --disable-load-extension
+		--prefix=$PREFIX \
+		--enable-static \
+		--disable-shared \
+		--disable-load-extension
     make -j$(nproc)
     make install
 }
@@ -73,11 +73,11 @@ LIBSSH2_BUILD() {
     mkdir -p $BUILD_DIR/libssh2 && cd $BUILD_DIR/libssh2
     curl -Ls -o - "$LIBSSH2" | tar zxvf - --strip-components=1
     ./configure \
-        --prefix=$PREFIX \
-        --enable-static \
-        --disable-shared \
-        --with-crypto=openssl \
-        --disable-examples-build
+		--prefix=$PREFIX \
+		--enable-static \
+		--disable-shared \
+		--with-crypto=openssl \
+		--disable-examples-build
     make -j$(nproc)
     make install
 }
@@ -85,7 +85,13 @@ LIBSSH2_BUILD() {
 MIMALLOC_BUILD() {
     git clone https://github.com/microsoft/mimalloc -b $MIMALLOC $BUILD_DIR/mimalloc
     cd $BUILD_DIR/mimalloc
-    cmake -DMI_INSTALL_TOPLEVEL=ON -DCMAKE_INSTALL_PREFIX=$PREFIX -DMI_BUILD_TESTS=OFF .
+    cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DMI_INSTALL_TOPLEVEL=ON \
+		-DCMAKE_INSTALL_PREFIX=$PREFIX \
+		-DMI_USE_CXX=ON \
+		-DMI_BUILD_SHARED=OFF \
+		-DMI_BUILD_TESTS=OFF .
     make -j$(nproc)
     make install
 }
@@ -93,21 +99,21 @@ MIMALLOC_BUILD() {
 ARIA2_BUILD() {
     ARIA2_CODE_GET
     ./configure \
-        --prefix=${ARIA2_PREFIX:-'/usr/loacl'} \
-        --with-libz \
-        --with-libcares \
-        --with-libexpat \
-        --without-libxml2 \
-        --without-libgcrypt \
-        --with-openssl \
-        --without-libnettle \
-        --without-gnutls \
-        --without-libgmp \
-        --with-libssh2 \
-        --with-sqlite3 \
-        --with-mimalloc \
-        --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
-        ARIA2_STATIC=yes \
-        --disable-shared
+		--prefix=${ARIA2_PREFIX:-'/usr/loacl'} \
+		--with-libz \
+		--with-libcares \
+		--with-libexpat \
+		--without-libxml2 \
+		--without-libgcrypt \
+		--with-openssl \
+		--without-libnettle \
+		--without-gnutls \
+		--without-libgmp \
+		--with-libssh2 \
+		--with-sqlite3 \
+		--with-mimalloc \
+		--with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
+		ARIA2_STATIC=yes \
+		--disable-shared
     make -j$(nproc)
 }
