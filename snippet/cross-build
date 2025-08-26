@@ -93,7 +93,7 @@ MIMALLOC_BUILD() {
     git clone https://github.com/microsoft/mimalloc -b $MIMALLOC $BUILD_DIR/mimalloc
     cd $BUILD_DIR/mimalloc
 	cmake \
-		-DCMAKE_SYSTEM_PROCESSOR=$ARCH
+		-DCMAKE_SYSTEM_PROCESSOR=$ARCH \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DMI_INSTALL_TOPLEVEL=ON \
 		-DCMAKE_INSTALL_PREFIX=$PREFIX \
