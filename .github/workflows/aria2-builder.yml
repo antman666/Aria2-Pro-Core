@@ -62,7 +62,7 @@ jobs:
       run: grep -iE 'fatal|error|critical|failure' build.log
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: aria2-${{ matrix.PLATFORMS }}
         path: output/*
