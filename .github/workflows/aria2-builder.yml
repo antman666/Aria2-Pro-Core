@@ -78,7 +78,7 @@ jobs:
           --dht-file-path6="$PWD/dht6.dat" \
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
-          "https://geo.mirror.pkgbuild.com/iso/latest/archlinux-2025.11.01-x86_64.iso.torrent"
+          "https://geo.mirror.pkgbuild.com/iso/latest/archlinux-2026.01.01-x86_64.iso.torrent"
 
     - name: Generate release informations
       run: |
